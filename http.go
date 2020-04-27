@@ -52,7 +52,7 @@ func (thisRef *HTTPServer) Run(ipPort string, enableCORS bool) error {
 // PrepareRoutes - Implement `IServer`
 func (thisRef *HTTPServer) PrepareRoutes(router *mux.Router) {
 	for _, handler := range thisRef.handlers {
-		logging.Instance().Debugf("%s - for %s, from %s", handler.Route, handler.Verb, reflection.GetThisFuncName())
+		logging.Debugf("%s - for %s, from %s", handler.Route, handler.Verb, reflection.GetThisFuncName())
 
 		router.HandleFunc(handler.Route, handler.Handler).Methods(handler.Verb, "OPTIONS").Name(handler.Route)
 	}
@@ -64,14 +64,14 @@ func (thisRef *HTTPServer) RunOnExistingListenerAndRouter(listener net.Listener,
 		corsSetterHandler := cors.Default().Handler(router)
 		err := http.Serve(listener, corsSetterHandler)
 		if err != nil {
-			logging.Instance().Fatalf("%s, from %s", err.Error(), reflection.GetThisFuncName())
+			logging.Fatalf("%s, from %s", err.Error(), reflection.GetThisFuncName())
 
 			os.Exit(-1)
 		}
 	} else {
 		err := http.Serve(listener, router)
 		if err != nil {
-			logging.Instance().Fatalf("%s, from %s", err.Error(), reflection.GetThisFuncName())
+			logging.Fatalf("%s, from %s", err.Error(), reflection.GetThisFuncName())
 
 			os.Exit(-1)
 		}
